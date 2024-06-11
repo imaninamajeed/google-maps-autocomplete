@@ -1,38 +1,27 @@
 /* global google */
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addSearch, markAsFavorite } from "../store/searchSlice";
-import {
-	Box,
-	TextField,
-	FormControl,
-	FormControlLabel,
-	Radio,
-	RadioGroup,
-	Checkbox,
-	Typography,
-	Button,
-} from "@mui/material";
+import React, { useEffect, useRef, useState } from "react"; // Import React and hooks
+import { useDispatch } from "react-redux"; // Import Redux dispatch
+import { addSearch } from "../store/searchSlice"; // Import actions
+import { Box, TextField, Button } from "@mui/material"; // Import Material-UI components
 
 const MapAutocomplete = () => {
-	const mapRef = useRef(null);
-	const inputRef = useRef(null);
-	const dispatch = useDispatch();
-	const [type, setType] = useState("all");
-	const [selectedPlace, setSelectedPlace] = useState(null);
+	const mapRef = useRef(null); // Reference for map container
+	const inputRef = useRef(null); // Reference for input field
+	const dispatch = useDispatch(); // Redux dispatch function
+	const [selectedPlace, setSelectedPlace] = useState(null); // State for selected place
 
 	useEffect(() => {
 		const initMap = () => {
 			if (!mapRef.current || !inputRef.current) return;
 
 			const map = new google.maps.Map(mapRef.current, {
-				center: { lat: 40.749933, lng: -73.98633 },
-				zoom: 13,
+				center: { lat: 40.749933, lng: -73.98633 }, // Map center
+				zoom: 13, // Initial zoom level
 				mapTypeControl: false,
 			});
 
 			const options = {
-				fields: ["formatted_address", "geometry", "name"],
+				fields: ["formatted_address", "geometry", "name"], // Autocomplete fields
 				strictBounds: false,
 			};
 
@@ -40,11 +29,10 @@ const MapAutocomplete = () => {
 				inputRef.current,
 				options
 			);
-			autocomplete.bindTo("bounds", map);
+			autocomplete.bindTo("bounds", map); // Bind autocomplete to map
 
 			const infowindow = new google.maps.InfoWindow();
 			const infowindowContent = document.getElementById("infowindow-content");
-
 			infowindow.setContent(infowindowContent);
 
 			const marker = new google.maps.Marker({
@@ -59,7 +47,7 @@ const MapAutocomplete = () => {
 				const place = autocomplete.getPlace();
 
 				if (!place.geometry || !place.geometry.location) {
-					window.alert("No details available for input: '" + place.name + "'");
+					alert("No details available for input: '" + place.name + "'");
 					return;
 				}
 
@@ -78,8 +66,8 @@ const MapAutocomplete = () => {
 					place.formatted_address;
 				infowindow.open(map, marker);
 
-				setSelectedPlace(place);
-				dispatch(addSearch(place));
+				setSelectedPlace(place); // Update selected place state
+				dispatch(addSearch(place)); // Dispatch addSearch action
 			});
 		};
 
@@ -91,64 +79,12 @@ const MapAutocomplete = () => {
 		document.head.appendChild(script);
 
 		return () => {
-			script.remove();
+			script.remove(); // Cleanup script on unmount
 		};
-	}, [dispatch]);
-
-	const handleTypeChange = (event) => {
-		setType(event.target.value);
-	};
-
-	const handleFavoriteClick = () => {
-		if (selectedPlace) {
-			dispatch(markAsFavorite(selectedPlace));
-		}
-	};
+	}, [dispatch]); // Effect dependency
 
 	return (
 		<Box>
-			<Box>
-				<FormControl component="fieldset">
-					<RadioGroup
-						row
-						aria-label="type"
-						name="type"
-						value={type}
-						onChange={handleTypeChange}>
-						<FormControlLabel value="all" control={<Radio />} label="All" />
-						<FormControlLabel
-							value="establishment"
-							control={<Radio />}
-							label="Establishment"
-						/>
-						<FormControlLabel
-							value="address"
-							control={<Radio />}
-							label="Address"
-						/>
-						<FormControlLabel
-							value="geocode"
-							control={<Radio />}
-							label="Geocode"
-						/>
-						<FormControlLabel
-							value="cities"
-							control={<Radio />}
-							label="Cities"
-						/>
-						<FormControlLabel
-							value="regions"
-							control={<Radio />}
-							label="Regions"
-						/>
-					</RadioGroup>
-				</FormControl>
-				<FormControlLabel
-					control={<Checkbox defaultChecked />}
-					label="Bias to map viewport"
-				/>
-				<FormControlLabel control={<Checkbox />} label="Strict bounds" />
-			</Box>
 			<TextField
 				id="pac-input"
 				label="Enter a location"
@@ -157,7 +93,7 @@ const MapAutocomplete = () => {
 				inputRef={inputRef}
 			/>
 			<Box ref={mapRef} sx={{ height: "500px", mt: 2 }}></Box>
-			<div id="infowindow-content" style={{ display: "none" }}>
+			<div id="infowindow-content" style={{ display: "inline" }}>
 				<span id="place-name" className="title"></span>
 				<br />
 				<span id="place-address"></span>
@@ -165,7 +101,7 @@ const MapAutocomplete = () => {
 			<Button
 				variant="contained"
 				color="primary"
-				onClick={handleFavoriteClick}
+				// onClick={handleFavoriteClick}
 				disabled={!selectedPlace}>
 				Mark as Favorite
 			</Button>
@@ -173,4 +109,4 @@ const MapAutocomplete = () => {
 	);
 };
 
-export default MapAutocomplete;
+export default MapAutocomplete; // Export component
