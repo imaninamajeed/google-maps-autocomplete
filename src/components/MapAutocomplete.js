@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react"; // Import React and 
 import { useDispatch } from "react-redux"; // Import Redux dispatch
 import { addSearch } from "../store/searchSlice"; // Import actions
 import { Box, TextField, Button } from "@mui/material"; // Import Material-UI components
+import "../App.css";
+import GradeIcon from "@mui/icons-material/Grade";
 
 const MapAutocomplete = () => {
 	const mapRef = useRef(null); // Reference for map container
@@ -15,8 +17,8 @@ const MapAutocomplete = () => {
 			if (!mapRef.current || !inputRef.current) return;
 
 			const map = new google.maps.Map(mapRef.current, {
-				center: { lat: 40.749933, lng: -73.98633 }, // Map center
-				zoom: 13, // Initial zoom level
+				center: { lat: 3.0058, lng: 101.5778 },
+				zoom: 13,
 				mapTypeControl: false,
 			});
 
@@ -84,29 +86,33 @@ const MapAutocomplete = () => {
 	}, [dispatch]); // Effect dependency
 
 	return (
-		<Box>
+		<Box className="Box-Map">
 			<TextField
 				id="pac-input"
+				type="search"
 				label="Enter a location"
-				variant="outlined"
+				variant="filled"
 				fullWidth
 				inputRef={inputRef}
 			/>
 			<Box ref={mapRef} sx={{ height: "500px", mt: 2 }}></Box>
-			<div id="infowindow-content" style={{ display: "inline" }}>
-				<span id="place-name" className="title"></span>
+			<div id="infowindow-content" style={{ display: "block" }}>
+				<span id="place-name"></span>
 				<br />
 				<span id="place-address"></span>
 			</div>
+
 			<Button
 				variant="contained"
-				color="primary"
+				className="btn-fav"
+				size="small"
 				// onClick={handleFavoriteClick}
-				disabled={!selectedPlace}>
+				disabled={!selectedPlace}
+				startIcon={<GradeIcon />}>
 				Mark as Favorite
 			</Button>
 		</Box>
 	);
 };
 
-export default MapAutocomplete; // Export component
+export default MapAutocomplete;

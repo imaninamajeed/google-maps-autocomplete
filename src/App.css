@@ -1,37 +1,101 @@
-.pac-card {
-  margin: 10px 10px 0 0;
-  border-radius: 2px 0 0 2px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  outline: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  background-color: #fff;
-  font-family: Roboto;
+:root {
+  --primary-color: #fff;
+  --secondary-color: #75A47F;
+  --background-color: #55AD9B;
+  --text-color: #F1F8E8;
+  --font-family: "Poppins", sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.5;
 }
-#pac-container {
-  padding-bottom: 12px;
-  margin-right: 12px;
+
+.App {
+  /* App container styles */
+  padding: 100px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
-.pac-controls {
-  display: inline-block;
-  padding: 5px 11px;
+
+/* Styles for the search input */
+#pac-input {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background-color: var(--secondary-color);
 }
-.pac-controls label {
-  font-size: 13px;
-  font-weight: 300;
+
+#pac-input-label {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  font-size: medium;
 }
-#title {
-  color: #fff;
-  background-color: #4d90fe;
-  font-size: 25px;
+
+/* Styles for place name and address */
+#place-name, #place-address {
+  font-family: var(--font-family);
+  color: var(--secondary-color);
+  font-size: 20px;
   font-weight: 500;
-  padding: 6px 12px;
 }
-#map {
-  height: 100%;
+
+#place-address {
+  font-size: 16px;
 }
-html, body {
-  height: 100%;
-  margin: 0;
+
+/* Favorite button styles */
+.btn-fav {
+  margin: 0 auto !important;
+}
+
+.btn-fav:not(:disabled) {
+  background-color: goldenrod;
+  font-size: larger;
+}
+
+/* Map container styles */
+.Map-Box {
   padding: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Search history container styles */
+.History-Box {
+  padding: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 50%; /* Adjust as needed */
+}
+
+/* Styles for list items */
+.list-item {
+  border-top: 1px solid #e0e0e0;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+/* Styles for place name and address within list items */
+.place-name, .place-address {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+}
+
+.place-name {
+  font-size: larger;
 }

@@ -1,32 +1,34 @@
-import React from "react"; // Import React to use JSX and create components
-import { useSelector } from "react-redux"; // Import useSelector hook to access Redux state
+import { useSelector } from "react-redux"; // Import useSelector hook from react-redux to access Redux store
 import { Box, List, ListItem, ListItemText, Typography } from "@mui/material"; // Import Material-UI components
+import "../App.css";
 
 const SearchHistory = () => {
-	// Define a functional component called SearchHistory
-	const history = useSelector((state) => state.search.history); // Access the search history from the Redux store
+	// Get search history from Redux store
+	const history = useSelector((state) => state.search.history);
 
 	return (
-		// Create a Box container with a margin-top of 2 units
-		<Box mt={2}>
-			{/* Display a heading */}
-			<Typography variant="h6">Search History</Typography>
-			{/* Create a List to display search history items */}
+		<Box className="History-Box" sx={{ height: "200px", p: 2, top: 10 }}>
+			{/* Title */}
+			<Typography
+				variant="h5"
+				component="h1"
+				align="center"
+				fontFamily={"Poppins"}>
+				Search History
+			</Typography>
+
+			{/* List of search history items */}
 			<List>
-				{history.map(
-					(
-						place,
-						index // Loop over each item in the history array
-					) => (
-						// Create a ListItem for each place, using index as a unique key
-						<ListItem key={index}>
-							<ListItemText
-								primary={place.name} // Set the primary text to the place's name
-								secondary={place.formatted_address} // Set the secondary text to the place's address
-							/>
-						</ListItem>
-					)
-				)}
+				{history.map((place, index) => (
+					<ListItem key={index} className="list-item">
+						<ListItemText
+							primary={<span className="place-name">{place.name}</span>}
+							secondary={
+								<span className="place-address">{place.formatted_address}</span>
+							}
+						/>
+					</ListItem>
+				))}
 			</List>
 		</Box>
 	);
